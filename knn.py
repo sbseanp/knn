@@ -9,17 +9,7 @@ from sys import argv
 import numpy as np
 from collections import Counter
 
-sys.stdout = open("HW3-4-output2.txt", 'w')
-
-'''***FROM HW1 SOLUTIONS***'''
-def add_vectors(a, b):
-    '''Add vectors a and b '''
-    assert len(a) == len(b)
-    return [a[i]+b[i] for i in range(len(a))]
-
-def multiply_scalar_vector(alpha, vec):
-    '''Multiply vector vec with scalar alpha '''
-    return [alpha*f for f in vec]
+#sys.stdout = open("HW3-4-output2.txt", 'w')
 
 '''find Euclidean distance and return list'''
 def Euclid(x, y):
@@ -33,6 +23,7 @@ def Euclid(x, y):
     list.append(int(y[-1]))
     return list
 
+'''returns list of all training data points'''
 def train_classifier(filename):
     train_file = open(filename)
     '''get MxN'''
