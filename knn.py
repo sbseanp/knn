@@ -11,6 +11,7 @@ from collections import Counter
 
 sys.stdout = open("HW3-4-output2.txt", 'w')
 
+'''***FROM HW1 SOLUTIONS***'''
 def add_vectors(a, b):
     '''Add vectors a and b '''
     assert len(a) == len(b)
@@ -20,6 +21,7 @@ def multiply_scalar_vector(alpha, vec):
     '''Multiply vector vec with scalar alpha '''
     return [alpha*f for f in vec]
 
+'''find Euclidean distance and return list'''
 def Euclid(x, y):
     sumSq=0.0
     list = []
@@ -33,7 +35,9 @@ def Euclid(x, y):
 
 def train_classifier(filename):
     train_file = open(filename)
+    '''get MxN'''
     row, col = map(int, train_file.readline().split())
+    '''put all training data in list'''
     neighbours = []
     for line in train_file:
         x = list(map(float, line.split()))
@@ -45,21 +49,28 @@ def test_classifier(filename, k, n):
     test_file = open(filename)
     row, col = map(int, test_file.readline().split())
     count = 1
-    for line in test_file:
-        Euclid_dist = []
+    '''apply label line by line'''
+    for line in test_file:       
         x = list(map(float, line.split()))
+        '''find Euclidean distance for every point in training set and put into list'''
+        Euclid_dist = []
         for i in range(len(n)):
             Euclid_dist.append(Euclid(x, n[i]))
+        '''sort the distances'''
         Euclid_dist.sort()
+        '''only keep the labels'''
         index = []
         for i in range(int(k)):
             index.append(str(Euclid_dist[i][-1]))
-        data = Counter(index)
-        if (len(data) > 1):
+        '''find what occurs most often amongst all the labels'''
+        mode = Counter(index)
+        '''if there is more than one label that applies, use nearest neighbour instead'''
+        if (len(mode) > 1):
             result = int(Euclid_dist[0][-1])
-        else:
-            result = data.most_common(1)
+        else:#otherwise, use the most common occurrence
+            result = mode.most_common(1)
             result = int(result[0][0])
+        '''print everything with sample formatting'''
         print(count, end='')
         print('.',end=' ')
         print(x,end=' ')
@@ -73,4 +84,4 @@ if __name__ == '__main__':
         temp = train_classifier(argv[2])
         temp2 = test_classifier(argv[3], argv[1], temp)
     else: 
-        print('Please input the training file and the test file')
+        print('Please input k, the training file, and the test file')
