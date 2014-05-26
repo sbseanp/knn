@@ -4,9 +4,7 @@ Created on May 25, 2014
 @author: Sean
 '''
 
-import sys
 from sys import argv
-import numpy as np
 from collections import Counter
 
 #sys.stdout = open("HW3-4-output2.txt", 'w')
