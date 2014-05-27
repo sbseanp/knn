@@ -71,6 +71,6 @@ def test_classifier(filename, k, n):
 if __name__ == '__main__':
     if len(argv) == 4:
         temp = train_classifier(argv[2])
-        temp2 = test_classifier(argv[3], argv[1], temp)
+        test_classifier(argv[3], argv[1], temp)
     else: 
         print('Please input k, the training file, and the test file')
