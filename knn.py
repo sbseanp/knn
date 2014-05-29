@@ -3,23 +3,21 @@ Created on May 25, 2014
 
 @author: Sean
 '''
-
+import sys
 from sys import argv
 from collections import Counter
-
-#sys.stdout = open("HW3-4-output2.txt", 'w')
 
 '''find Euclidean distance and return list'''
 def Euclid(x, y):
     sumSq=0.0
-    list = []
+    L = []
     '''x is input, y is the neighbours vectors'''
     for i in range(len(x)):
         sumSq+=(x[i]-y[i])**2
     result = sumSq**0.5
-    list.append(result)
-    list.append(int(y[-1]))
-    return list
+    L.append(result)
+    L.append(int(y[-1]))
+    return L
 
 '''returns list of all training data points'''
 def train_classifier(filename):
@@ -53,12 +51,29 @@ def test_classifier(filename, k, n):
             index.append(str(Euclid_dist[i][-1]))
         '''find what occurs most often amongst all the labels'''
         mode = Counter(index)
+        data = mode.most_common()
+        '''remove anything that isn't tied for mode'''
+        most = data[0][1]
+        for i in range(len(data)):
+            if most > data[i][1]:
+                data[i] = 0
+        mode = []
+        for item in data:
+            if item != 0:
+                mode.append(item)
         '''if there is more than one label that applies, use nearest neighbour instead'''
         if (len(mode) > 1):
-            result = int(Euclid_dist[0][-1])
+            reduced = []
+            for i in range(len(mode)):
+                key = int(mode[i][0])
+                for j in range(len(Euclid_dist)):
+                    if ((Euclid_dist[j][-1]) == key):
+                        reduced.append(Euclid_dist[j])
+            reduced.sort()
+            result = reduced[0][-1]
+            #result = int(Euclid_dist[0][-1])
         else:#otherwise, use the most common occurrence
-            result = mode.most_common(1)
-            result = int(result[0][0])
+            result = int(mode[0][0])
         '''print everything with sample formatting'''
         print(count, end='')
         print('.',end=' ')
